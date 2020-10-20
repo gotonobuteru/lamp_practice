@@ -27,10 +27,22 @@ $user = get_login_user($db);
 
 $carts = get_user_carts($db, $user['user_id']);
 
+$db->beginTransaction();
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
 } 
+
+// 購入履歴と購入履歴明細の保存をトランザクション処理する
+if(insert_log_transaction($db, $user['user_id'], $carts) === false) {
+  set_error('履歴を保存できませんでした。');
+}
+
+if (isset($_SESSION['__errors']) === false || count($_SESSION['__errors']) === 0) {
+  $db->commit();
+} else {
+  $db->rollback();
+}
 
 $total_price = sum_carts($carts);
 

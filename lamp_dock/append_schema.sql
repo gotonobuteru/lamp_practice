@@ -16,5 +16,5 @@ CREATE TABLE `logs_info` (
     `item_id` INT NOT NULL,
     `price` INT NOT NULL DEFAULT 0,
     `amount` INT NOT NULL DEFAULT 0,
-    PRIMARY KEY('order_id')
+    PRIMARY KEY(`order_id`)
 );
