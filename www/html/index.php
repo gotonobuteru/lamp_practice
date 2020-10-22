@@ -26,6 +26,11 @@ $user = get_login_user($db);
 //商品一覧用の商品データを取得
 $items = get_open_items($db);
 
+//順位
+$rank_count = 1;
+//購入数上位3アイテムの情報
+$ranking = get_ranking($db);
+
 //トークンの生成
 $token = get_csrf_token();
 
