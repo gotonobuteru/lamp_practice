@@ -206,3 +206,29 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+
+//購入数上位3アイテムを取得する
+function get_ranking($db) {
+  $sql = "
+    SELECT
+      items.name,
+      items.price,
+      items.image,
+      SUM(logs_info.amount)
+    FROM
+      items
+    INNER JOIN
+      logs_info
+    ON
+      items.item_id = logs_info.item_id
+    GROUP BY
+      logs_info.item_id
+    ORDER BY
+      SUM(logs_info.amount) DESC
+    LIMIT
+      3
+    
+  ";
+
+  return fetch_all_query($db, $sql);
+}
